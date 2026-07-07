@@ -1,0 +1,25 @@
+name: German Reminder Bot
+
+on:
+  schedule:
+    - cron: "0 16 * * *"
+  workflow_dispatch:
+
+jobs:
+  send-message:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run bot
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install requests
+        run: pip install requests
+
+      - name: Send Telegram message
+        run: python bot.py
