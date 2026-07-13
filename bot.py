@@ -1,161 +1,46 @@
 import os
-import requests
+import json
 import random
+import requests
 
 TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
 
-topics = [
-"Familie und moderne Lebensformen",
-"Generationenkonflikte",
-"Freundschaft im digitalen Zeitalter",
-"Kindererziehung",
-"Work-Life-Balance",
-"Homeoffice",
-"Berufliche Weiterbildung",
-"Künstliche Intelligenz",
-"Digitalisierung",
-"Datenschutz",
-"Soziale Medien",
-"Influencer",
-"Online-Shopping",
-"Fake News",
-"Medienkonsum",
-"Umweltschutz",
-"Klimawandel",
-"Nachhaltigkeit",
-"Mülltrennung",
-"Energiesparen",
-"Erneuerbare Energien",
-"Massentourismus",
-"Nachhaltiges Reisen",
-"Stadt oder Land",
-"Wohnungsmangel",
-"Mietpreise",
-"Nachbarschaft",
-"Gesunde Ernährung",
-"Sport und Gesundheit",
-"Stress im Alltag",
-"Psychische Gesundheit",
-"Schlafprobleme",
-"Gesundheitssystem",
-"Migration",
-"Integration",
-"Mehrsprachigkeit",
-"Kulturelle Vielfalt",
-"Globalisierung",
-"Demokratie",
-"Europa der Zukunft",
-"Ehrenamt",
-"Freiwilligenarbeit",
-"Armut in der Gesellschaft",
-"Soziale Gerechtigkeit",
-"Gleichberechtigung",
-"Rolle der Frau",
-"Rolle der Männer",
-"Lebenslanges Lernen",
-"Schulsystem",
-"Online-Unterricht",
-"Studium im Ausland",
-"Berufswahl",
-"Arbeitslosigkeit",
-"Bewerbungsgespräch",
-"Fachkräftemangel",
-"Automatisierung",
-"Robotik",
-"Elektroautos",
-"Öffentliche Verkehrsmittel",
-"Verkehrsprobleme",
-"Mode und Konsum",
-"Werbung",
-"Markenprodukte",
-"Minimalismus",
-"Glück",
-"Erfolg",
-"Zeitmanagement",
-"Zukunftspläne",
-"Persönliche Ziele",
-"Literatur",
-"Filme und Serien",
-"Musik",
-"Theater",
-"Kunst im Alltag",
-"Traditionen",
-"Feiertage",
-"Interkulturelle Kommunikation",
-"Sprache und Identität",
-"Technik der Zukunft",
-"Smart Home",
-"Virtuelle Realität",
-"Cyberkriminalität",
-"Datensicherheit",
-"Online-Dating",
-"Freizeitgestaltung",
-"Hobbys",
-"Sportveranstaltungen",
-"Extremsport",
-"Ernährungstrends",
-"Vegetarismus",
-"Veganismus",
-"Fast Food",
-"Konsumgesellschaft",
-"Second-Hand-Kultur",
-"Nachhaltige Mode",
-"Influencer-Marketing",
-"Arbeitszufriedenheit",
-"Karriere oder Familie",
-"Auswandern",
-"Leben im Ausland",
-"Reisen bildet",
-"Tourismus und Umwelt",
-"Kulturelle Unterschiede im Beruf",
-"Konflikte am Arbeitsplatz",
-"Teamarbeit",
-"Führung und Verantwortung",
-"Digitale Kompetenzen",
-"Die Zukunft der Arbeit",
-"Künstliche Intelligenz in der Bildung",
-"Soziale Verantwortung von Unternehmen",
-"Mobilität der Zukunft",
-"Alternative Energien",
-"Plastikverbrauch",
-"Wasserknappheit",
-"Naturkatastrophen",
-"Freiheit und Sicherheit",
-"Datenschutz versus Komfort",
-"Öffentliche Meinung",
-"Die Rolle der Medien",
-"Jugendliche heute",
-"Ältere Menschen in der Gesellschaft",
-"Einsamkeit",
-"Lebensqualität",
-"Glückliche Gesellschaft",
-"Persönliche Verantwortung",
-"Ethik in der Technologie",
-"Umgang mit Fehlern",
-"Kritisches Denken",
-"Motivation",
-"Erfolg im Berufsleben",
-"Sprachenlernen",
-"Mehrsprachigkeit im Beruf",
-"Internationale Zusammenarbeit",
-"Globales Lernen",
-"Digitale Kommunikation",
-"Veränderungen durch Technologie",
-"Zukunft der Städte",
-"Nachhaltiges Wohnen",
-"Umweltfreundliche Mobilität"
-]
+with open("topics.json", "r", encoding="utf-8") as file:
+    topics = json.load(file)
 
+lesson = random.choice(topics)
 
-topic = random.choice(topics)
+message = f"""🇩🇪 Deutsch mit Saleki
 
-message = f"""🇩🇪 Zeit zum Sprechen!
+🎯 Sprechtraining B2
 
-Thema des Tages:
-{topic}
+📌 Thema:
+{lesson['title']}
 
-Sprich 2 Minuten auf Deutsch und sende eine Sprachnachricht 🎤
+🗣️ Leitfragen:
+
+"""
+
+for i, question in enumerate(lesson["questions"], 1):
+    message += f"{i}. {question}\n"
+
+message += "\n📚 Wortschatz:\n"
+
+for word in lesson["vocabulary"]:
+    message += f"• {word}\n"
+
+message += "\n💬 Redemittel:\n"
+
+for phrase in lesson["redemittel"]:
+    message += f"• {phrase}\n"
+
+message += f"""
+
+📝 Grammatik-Challenge:
+{lesson['grammar']}
+
+🎤 Bitte schicken Sie heute eine Sprachnachricht (3–5 Minuten).
 """
 
 url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
