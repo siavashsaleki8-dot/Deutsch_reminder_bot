@@ -11,7 +11,7 @@ with open("topics.json", "r", encoding="utf-8") as file:
 
 lesson = random.choice(topics)
 
-message = f"""🇩🇪 Deutsch mit Saleki
+message = f"""🇩🇪 Deutsch mit Saleki B2
 
 🎯 Sprechtraining B2
 
